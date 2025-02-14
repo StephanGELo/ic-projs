@@ -19,6 +19,7 @@ function Item(props) {
       agent,
       canisterId: id
     });
+
     const name = await NFTActor.getName();
     const owner = await NFTActor.getOwner();
     const imageData = await NFTActor.getAsset();
@@ -35,8 +36,6 @@ function Item(props) {
   useEffect(() => {
     loadNFT()
   },[]);
-
-
 
   return (
     <div className="disGrid-item">
