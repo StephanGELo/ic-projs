@@ -3,7 +3,7 @@ import Nat8 "mo:base/Nat8";
 import Principal "mo:base/Principal";
 
 actor class NFT(name : Text, owner : Principal, content : [Nat8]) = this {
-    Debug.print("it works");
+    // Debug.print("it works");
     let itemName = name;
     let nftOwner = owner;
     let imageBytes = content;

@@ -31,6 +31,8 @@ function Item(props) {
     setName(name);
     setOwner(owner.toString());
     setImage(image);
+    console.log("name is ", name);
+    console.log("owner is ", owner);
   };
 
   useEffect(() => {
