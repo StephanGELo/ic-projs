@@ -3,12 +3,15 @@ import logo from "../../assets/logo.png";
 import { Principal }  from "@dfinity/principal";
 import { Actor, HttpAgent } from "@dfinity/agent";
 import { canisterId, idlFactory } from "../../../declarations/nft/index";
+import Button from "./Button";
 
 function Item(props) {
 
   const [ name, setName ] = useState();
   const [ owner, setOwner ] = useState();
   const [ image, setImage ] = useState();
+  const [ button, setButton ] = useState();
+  const [ priceInput, setPriceInput ] = useState();
 
   const id = props.id;
   const localHost = "http://localhost:8080";
@@ -24,6 +27,7 @@ function Item(props) {
     const owner = await NFTActor.getOwner();
     const imageData = await NFTActor.getAsset();
     const imageContent = new Uint8Array(imageData);
+
     const image = URL.createObjectURL(
       new Blob([imageContent.buffer], { type: "image/png" })
     );
@@ -33,11 +37,26 @@ function Item(props) {
     setImage(image);
     // console.log("name is ", name);
     // console.log("owner is ", owner);
+    setButton(<Button handleClick={handleSell}/>)
   };
 
   useEffect(() => {
     loadNFT()
   },[]);
+
+  let price;
+  function handleSell() {
+    console.log("Sell was clicked");
+    setPriceInput(
+      <input
+        placeholder="Price in LSGE"
+        type="number"
+        className="price-input"
+        value={price}
+        onChange={(e) => (price=e.target.value)}
+      />
+    );
+  };
 
   return (
     <div className="disGrid-item">
@@ -53,6 +72,8 @@ function Item(props) {
           <p className="disTypography-root makeStyles-bodyText-24 disTypography-body2 disTypography-colorTextSecondary">
             Owner: {owner}
           </p>
+          {priceInput}
+          {button}
         </div>
       </div>
     </div>
