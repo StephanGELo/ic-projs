@@ -8,9 +8,8 @@ import List "mo:base/List";
 
 actor OpenD {
     var mapOfNFTs = HashMap.HashMap<Principal, NFTActorClass.NFT>(1, Principal.equal, Principal.hash);
-    var mapOfOwners = HashMap.HashMap<Principal, List.List<Principal>>(1, Principal, Principal.hash);
+    var mapOfOwners = HashMap.HashMap<Principal, List.List<Principal>>(1, Principal.equal, Principal.hash);
 
-    List.List<Principal>();
     public shared (msg) func mint(imgData : [Nat8], name : Text) : async Principal {
         let owner : Principal = msg.caller;
 
@@ -33,5 +32,13 @@ actor OpenD {
         };
         ownedNFTs := List.push(nftId, ownedNFTs);
         mapOfOwners.put(owner, ownedNFTs);
+    };
+
+    public query func getOwnedNFTs(user : Principal) : async [Principal] {
+        var userNFTs : List.List<Principal> = switch (mapOfOwners.get(user)) {
+            case null List.nil<Principal>();
+            case (?result) result;
+        };
+        return List.toArray(userNFTs);
     };
 };
