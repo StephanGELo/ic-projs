@@ -13,6 +13,7 @@ function Item(props) {
   const [ image, setImage ] = useState();
   const [ button, setButton ] = useState();
   const [ priceInput, setPriceInput ] = useState();
+  const [ loaderHidden, setLoaderHidden ] = useState(true);
 
   const id = props.id;
   const localHost = "http://localhost:8080";
@@ -64,11 +65,15 @@ function Item(props) {
   };
 
   async function sellItem() {
+    setLoaderHidden(false);
     const listingResults = await opend.listItem(props.id, Number(price));
     console.log("listing is " + listingResults);
     const openDId = await opend.getOpenDCanisterID();
     const transferResult = await NFTActor.transferOwnership(openDId);
     console.log("transfer result is: " + transferResult);
+    if(transferResult == "Success") {
+      setLoaderHidden(true);
+    }
   }
 
   return (
@@ -78,6 +83,12 @@ function Item(props) {
           className="disCardMedia-root makeStyles-image-19 disCardMedia-media disCardMedia-img"
           src={image}
         />
+        <div className="lds-ellipsis" hidden={loaderHidden}>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
         <div className="disCardContent-root">
           <h2 className="disTypography-root makeStyles-bodyText-24 disTypography-h5 disTypography-gutterBottom">
             {name}<span className="purple-text"></span>
