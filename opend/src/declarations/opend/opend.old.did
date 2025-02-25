@@ -1,5 +1,4 @@
 service : {
-  getOpenDCanisterID: () -> (principal) query;
   getOwnedNFTs: (principal) -> (vec principal) query;
   listItem: (principal, nat) -> (text);
   mint: (vec nat8, text) -> (principal);

@@ -17,9 +17,12 @@ function Item(props) {
   const id = props.id;
   const localHost = "http://localhost:8080";
   const agent = new HttpAgent({host: localHost});
+  //TODO: When deploy live, to remove the following line.
+  agent.fetchRootKey();
 
+  let NFTActor;
   async function loadNFT() {
-    const NFTActor = await Actor.createActor(idlFactory, {
+    NFTActor = await Actor.createActor(idlFactory, {
       agent,
       canisterId: id
     });
@@ -63,6 +66,9 @@ function Item(props) {
   async function sellItem() {
     const listingResults = await opend.listItem(props.id, Number(price));
     console.log("listing is " + listingResults);
+    const openDId = await opend.getOpenDCanisterID();
+    const transferResult = await NFTActor.transferOwnership(openDId);
+    console.log("transfer result is: " + transferResult);
   }
 
   return (

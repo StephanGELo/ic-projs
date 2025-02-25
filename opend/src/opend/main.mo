@@ -67,4 +67,8 @@ actor OpenD {
         };
 
     };
+
+    public query func getOpenDCanisterID() : async Principal {
+        return Principal.fromActor(OpenD);
+    };
 };
