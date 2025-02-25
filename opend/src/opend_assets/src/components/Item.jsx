@@ -73,6 +73,9 @@ function Item(props) {
     console.log("transfer result is: " + transferResult);
     if(transferResult == "Success") {
       setLoaderHidden(true);
+      setButton();
+      setPriceInput();
+      setOwner("OpenD");
     }
   }
 
