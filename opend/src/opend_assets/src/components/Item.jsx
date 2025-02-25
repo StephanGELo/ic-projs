@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo.png";
 import { Principal }  from "@dfinity/principal";
 import { Actor, HttpAgent } from "@dfinity/agent";
-import { canisterId, idlFactory } from "../../../declarations/nft/index";
+import { idlFactory } from "../../../declarations/nft";
+import { opend } from "../../../declarations/opend";
 import Button from "./Button";
 
 function Item(props) {
@@ -56,8 +57,13 @@ function Item(props) {
         onChange={(e) => (price=e.target.value)}
       />
     );
-    setButton(<Button handleClick={handleSell} text="Confirm"/>)
+    setButton(<Button handleClick={sellItem} text="Confirm"/>)
   };
+
+  async function sellItem() {
+    const listingResults = await opend.listItem(props.id, Number(price));
+    console.log("listing is " + listingResults);
+  }
 
   return (
     <div className="disGrid-item">
