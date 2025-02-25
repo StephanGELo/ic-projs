@@ -14,6 +14,7 @@ function Item(props) {
   const [ button, setButton ] = useState();
   const [ priceInput, setPriceInput ] = useState();
   const [ loaderHidden, setLoaderHidden ] = useState(true);
+  const [ blur, setBlur ] = useState();
 
   const id = props.id;
   const localHost = "http://localhost:8080";
@@ -66,6 +67,7 @@ function Item(props) {
 
   async function sellItem() {
     setLoaderHidden(false);
+    setBlur({ filter:"blur(4px)"});
     const listingResults = await opend.listItem(props.id, Number(price));
     console.log("listing is " + listingResults);
     const openDId = await opend.getOpenDCanisterID();
@@ -85,6 +87,7 @@ function Item(props) {
         <img
           className="disCardMedia-root makeStyles-image-19 disCardMedia-media disCardMedia-img"
           src={image}
+          style={blur}
         />
         <div className="lds-ellipsis" hidden={loaderHidden}>
           <div></div>
