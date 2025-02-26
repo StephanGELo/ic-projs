@@ -44,15 +44,19 @@ function Item(props) {
     setImage(image);
     // console.log("name is ", name);
     // console.log("owner is ", owner);
-    const nftIsListed = await opend.isListed(id);
 
-    if (nftIsListed) {
-      setSellStatus("Listed");
-      setOwner("OpenD");
-      setBlur({ filter:"blur(4px)"});
-    } else {
-      setButton(<Button handleClick={handleSell} text="Sell"/>);
-    }
+    if (props.role == "collection") {
+        const nftIsListed = await opend.isListed(id);
+        if (nftIsListed) {
+          setSellStatus("Listed");
+          setOwner("OpenD");
+          setBlur({ filter:"blur(4px)"});
+        } else {
+          setButton(<Button handleClick={handleSell} text="Sell"/>);
+        }
+    } else if (props.role == "discover") {
+      setButton(<Button handleClick={handleBuy} text="Buy"/>);
+    };
   };
 
   useEffect(() => {
@@ -90,6 +94,10 @@ function Item(props) {
       setSellStatus("Listed");
     }
   }
+
+  async function handleBuy () {
+    console.log("Buy was clicked");
+  };
 
   return (
     <div className="disGrid-item">
