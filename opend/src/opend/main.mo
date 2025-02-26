@@ -85,4 +85,12 @@ actor OpenD {
             return true;
         };
     };
+
+    public query func getOriginalOwner(id : Principal) : async Principal {
+        var owner : Principal = switch (mapOfListings.get(id)) {
+            case null return Principal.fromText("");
+            case (?result) return result.itemOwner;
+        };
+        return owner;
+    };
 };

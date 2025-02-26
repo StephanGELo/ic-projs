@@ -5,6 +5,7 @@ import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory } from "../../../declarations/nft";
 import { opend } from "../../../declarations/opend";
 import Button from "./Button";
+import CURRENT_USER_ID from "../index";
 
 function Item(props) {
 
@@ -55,7 +56,10 @@ function Item(props) {
           setButton(<Button handleClick={handleSell} text="Sell"/>);
         }
     } else if (props.role == "discover") {
-      setButton(<Button handleClick={handleBuy} text="Buy"/>);
+    let originalOwner = await opend.getOriginalOwner(props.id);
+      if(originalOwner.toText() != CURRENT_USER_ID.toText()) {
+        setButton(<Button handleClick={handleBuy} text="Buy"/>);
+      };
     };
   };
 
