@@ -5,6 +5,7 @@ import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory } from "../../../declarations/nft";
 import { opend } from "../../../declarations/opend";
 import Button from "./Button";
+import PriceLabel from "./PriceLabel";
 import CURRENT_USER_ID from "../index";
 
 function Item(props) {
@@ -17,6 +18,7 @@ function Item(props) {
   const [ loaderHidden, setLoaderHidden ] = useState(true);
   const [ blur, setBlur ] = useState();
   const [ sellStatus, setSellStatus ] = useState("");
+  const [ priceLabel, setPriceLabel ] = useState();
 
   const id = props.id;
   const localHost = "http://localhost:8080";
@@ -35,6 +37,7 @@ function Item(props) {
     const owner = await NFTActor.getOwner();
     const imageData = await NFTActor.getAsset();
     const imageContent = new Uint8Array(imageData);
+
 
     const image = URL.createObjectURL(
       new Blob([imageContent.buffer], { type: "image/png" })
@@ -56,10 +59,12 @@ function Item(props) {
           setButton(<Button handleClick={handleSell} text="Sell"/>);
         }
     } else if (props.role == "discover") {
-    let originalOwner = await opend.getOriginalOwner(props.id);
+      let originalOwner = await opend.getOriginalOwner(props.id);
       if(originalOwner.toText() != CURRENT_USER_ID.toText()) {
         setButton(<Button handleClick={handleBuy} text="Buy"/>);
       };
+      const NFTPrice = await opend.getListedNFTPrice(props.id);
+      setPriceLabel(<PriceLabel price={NFTPrice.toString()}/>);
     };
   };
 
@@ -118,6 +123,7 @@ function Item(props) {
           <div></div>
         </div>
         <div className="disCardContent-root">
+          {priceLabel}
           <h2 className="disTypography-root makeStyles-bodyText-24 disTypography-h5 disTypography-gutterBottom">
             {name}<span className="purple-text"> {sellStatus}</span>
           </h2>

@@ -93,4 +93,12 @@ actor OpenD {
         };
         return owner;
     };
+
+    public query func getListedNFTPrice(id : Principal) : async Nat {
+        var NFTPrice : Nat = switch (mapOfListings.get(id)) {
+            case null return 0;
+            case (?result) return result.itemPrice;
+        };
+        return NFTPrice;
+    };
 };
