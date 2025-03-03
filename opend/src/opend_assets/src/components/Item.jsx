@@ -3,6 +3,7 @@ import logo from "../../assets/logo.png";
 import { Principal }  from "@dfinity/principal";
 import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory } from "../../../declarations/nft";
+import { idlFactory as tokenIdlFactory } from "../../../declarations/token";
 import { opend } from "../../../declarations/opend";
 import Button from "./Button";
 import PriceLabel from "./PriceLabel";
