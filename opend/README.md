@@ -107,7 +107,7 @@ dfx canister call opend mint '(vec {137; 80; 78; 71; 13; 10; 26; 10; 0; 0; 0; 13
 2. List the item into mapOfListings:
 
 ```
-dfx canister call opend listItem '(principal "rdmx6-jaaaa-aaaaa-aaadq-cai", 2)'
+dfx canister call opend listItem '(principal "qaa6y-5yaaa-aaaaa-aaafa-cai", 2)'
 ```
 
 3. Get OpenD canister ID:
