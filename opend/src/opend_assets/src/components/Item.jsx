@@ -110,7 +110,7 @@ function Item(props) {
     console.log("Buy was clicked");
     const tokenActor = await Actor.createActor(tokenIdlFactory,{
       agent,
-      canisterId: Principal.fromText("renrk-eyaaa-aaaaa-aaada-cai"),
+      canisterId: Principal.fromText("qoctq-giaaa-aaaaa-aaaea-cai"),
     });
 
     const sellerId = await opend.getOriginalOwner(props.id);
@@ -118,6 +118,10 @@ function Item(props) {
 
     const result = await tokenActor.transfer(sellerId, itemPrice);
     console.log("Buy result is: " + result);
+    if (result == "Success") {
+     const transferResult = await opend.completePurchase(props.id, sellerId, CURRENT_USER_ID);
+     console.log("Purchase is: "+ transferResult);
+    };
   };
 
   return (
